@@ -1,0 +1,69 @@
+DELIMITER //
+CREATE PROCEDURE sp_insert_user(IN p_username VARCHAR(255), IN p_department VARCHAR(255), IN p_manager VARCHAR(255))
+BEGIN
+    INSERT INTO user_entity(username, department, manager) VALUES(p_username, p_department, p_manager);
+END //
+DELIMITER ;
+-----------------------------------------------
+DELIMITER //
+CREATE PROCEDURE sp_update_user(IN p_id INT, IN p_username VARCHAR(255), IN p_department VARCHAR(255), IN p_manager VARCHAR(255))
+BEGIN
+    UPDATE user_entity SET username = p_username, department = p_department, manager = p_manager WHERE id = p_id;
+END //
+DELIMITER ;
+-----------------------------------------------
+DELIMITER //
+CREATE PROCEDURE sp_delete_user(IN p_id INT)
+BEGIN
+    DELETE FROM user_entity WHERE id = p_id;
+END //
+DELIMITER ;
+------------------------------------------------
+DELIMITER //
+DROP PROCEDURE IF EXISTS sp_retrieve_user //
+CREATE PROCEDURE sp_retrieve_user(IN p_username VARCHAR(255), IN p_department VARCHAR(255), IN p_manager VARCHAR(255))
+BEGIN
+    SELECT id, username, department, manager FROM user_entity WHERE username = p_username AND department = p_department AND manager = p_manager;
+END //
+DELIMITER ;
+------------------------------------------------
+DELIMITER //
+CREATE PROCEDURE sp_retrieve_person(IN p_username VARCHAR(255), IN p_department VARCHAR(255), IN p_manager VARCHAR(255))
+BEGIN
+    SELECT id FROM Person WHERE username = p_username AND department = p_department AND manager = p_manager;
+END //
+DELIMITER ;
+
+
+
+Curl Commands
+-------------
+
+curl --location 'http://localhost:8181/user/save' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'username=John' \
+--data-urlencode 'department=Sales' \
+--data-urlencode 'manager=Jane'
+
+curl --location --request DELETE 'http://localhost:8181/user/delete/1'
+
+
+curl --location --request PUT 'http://localhost:8181/user/update/2' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'username=JohnDoe' \
+--data-urlencode 'department=Sales' \
+--data-urlencode 'manager=MikeJohnson'
+
+
+curl --location 'http://localhost:8181/user/save' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'username=John' \
+--data-urlencode 'department=Sales' \
+--data-urlencode 'manager=Jane'
+
+
+
+
+
+
+
